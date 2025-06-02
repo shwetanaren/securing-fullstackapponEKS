@@ -1,0 +1,34 @@
+
+
+services:
+  frontend:
+    build: ./front-end
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://backend:3001
+
+  backend:
+    build: ./back-end
+    ports:
+      - "3001:3001"
+      
+    env_file:
+      - ./back-end/.env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: smartbrain-db
+      POSTGRES_USER: shwetanarendernath
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  labels:
+    app: backend
+
+data:
+  DATABASE_URL: postgres://shwetanarendernath:password@postgres:5432/smartbrain-db
+  NODE_ENV: development

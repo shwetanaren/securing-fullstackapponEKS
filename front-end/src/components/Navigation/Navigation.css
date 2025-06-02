@@ -1,0 +1,9 @@
+.linktext {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.linktext:hover {
+    color:darkblue;
+}
+
