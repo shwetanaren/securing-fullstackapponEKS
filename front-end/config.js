@@ -1,0 +1,1 @@
+export const FRONTEND_SECRET_KEY = "sast_exposed_secret_abc123"; // SOURCE

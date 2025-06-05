@@ -31,6 +31,8 @@ class  SignInForm extends React.Component  {
       //check what is being returned
       console.log('Server response:', user)
       if (user.id) { //does the user exist with the id
+         // SENSITIVE DATA EXPOSURE
+        localStorage.setItem('user', JSON.stringify(user)); // BAD: Stores full user object, possibly with sensitive info
         this.props.loadUser(user);
         this.props.onRouteChange('_home_');
       } else {

@@ -7,6 +7,7 @@ import ImageLinkForm from './ImageLinkForm.jsx'
 import FaceRecognition from './FaceRecognition.jsx'
 import SigninForm from './components/Signin/Signin.jsx'
 import Register from './components/Register/Register.jsx'
+import { FRONTEND_SECRET_KEY } from './config';
 
 // const returnClarifaiRequestOptions = (imageUrl) => {
 // // Clarifai API credentials and model settings
@@ -43,6 +44,9 @@ import Register from './components/Register/Register.jsx'
 // return requestOptions
 // };
 
+
+
+
 const API_BASE = import.meta.env.VITE_API_URL; // now "/api"
 
 const initialState = {
@@ -60,7 +64,6 @@ const initialState = {
   }
 }
 
-
 class Main extends Component {
   constructor() {
     super();
@@ -76,7 +79,9 @@ class Main extends Component {
       joined:data.joined,
     }})
   }
-  
+
+
+
   onInputChange = (event) => {
     this.setState({ userInput: event.target.value });
   };
@@ -182,7 +187,12 @@ class Main extends Component {
           />
           <FaceRecognition 
           imageUrl={imageUrl} 
-          boxes={boxes}/>{/* pass the boxes and imageUrl down as props */}
+          boxes={boxes} /* pass the boxes and imageUrl down as props */
+          caption={this.state.userInput} />// BAD: user-controlled!
+            <div>
+            <b>Demo: Exposed key:</b>
+            <pre>{FRONTEND_SECRET_KEY}</pre> {/* SINK */}
+          </div>
         </div>
         : (
           this.state.route === '_signin_'
