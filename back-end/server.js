@@ -15,7 +15,10 @@ import * as image from './controllers/image.js';
 import * as clarifai from './controllers/clarifai.js';
 import knexConfig from './knexfile.js';
 
+import fs from 'fs';
+import path from 'path';
 
+const SECRET_KEY = "sast_thisIsHardcodedSecret";
 
 //Initialize an Express application:
 const app = express();
@@ -25,7 +28,8 @@ const app = express();
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || '*';
 
 app.use(cors({
-  origin: allowedOrigins
+  origin: '*',
+  credentials: true
 }));
 
 
@@ -35,6 +39,12 @@ const PORT = process.env.PORT || 3000;
 
 // //Adding the cors middleware to be used before the routes. This enables cross origin resource sharing by default.
 // app.use(cors());
+
+
+// endpoint to leak secrets (for demo/testing SAST)
+app.get('/api/vuln-secret', (req, res) => {
+  res.json({ secret: SECRET_KEY });  // BAD: Leaks secret key
+});
 
 
   app.get('/api/test', (req, res) => {
@@ -72,7 +82,21 @@ app.put("/api/image", (req,res) => {image.handleImage(req,res,db);} );
 
 app.post('/api/clarifai', (req,res) => {clarifai.handleClarifai(req,res,fetch)});
 
+app.get('/api/vuln-sql', async (req, res) => {
+  const { username } = req.query;
+  const rawQuery = `SELECT * FROM users WHERE username = '${username}'`;
+  const result = await db.raw(rawQuery);
+  res.json(result.rows || result);
+});
 
+app.get('/api/readfile', (req, res) => {
+  const filename = req.query.filename;
+  const filePath = path.join(process.cwd(), filename);
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) return res.status(404).send('File not found');
+    res.send(data);
+  });
+});
 
 app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
