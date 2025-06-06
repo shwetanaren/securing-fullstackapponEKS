@@ -89,6 +89,12 @@ app.get('/api/vuln-sql', async (req, res) => {
   res.json(result.rows || result);
 });
 
+app.post('/api/eval', (req, res) => {
+  // BAD: Dangerous use of eval
+  const result = eval(req.body.expression);
+  res.json({ result });
+});
+
 app.get('/api/readfile', (req, res) => {
   const filename = req.query.filename;
   const filePath = path.join(process.cwd(), filename);
