@@ -13,7 +13,7 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
         <button onClick={onButtonSubmit}> Detect</button>
       </div>
       {/* --- Simple eval() vulnerability for SAST testing --- */}
-      <div style={{ marginTop: 20 }}>
+      {/* <div style={{ marginTop: 20 }}>
         <label>Eval Demo: Type JS code and run it!</label>
         <input
           type="text"
@@ -27,8 +27,8 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
           style={{ marginLeft: 10, color: 'white', background: 'red' }}
         >
           Run Eval
-        </button>
-      </div>
+        </button> */}
+      {/* </div> */}
     </div>
   );
 };

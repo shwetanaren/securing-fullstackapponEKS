@@ -7,7 +7,7 @@ import ImageLinkForm from './ImageLinkForm.jsx'
 import FaceRecognition from './FaceRecognition.jsx'
 import SigninForm from './components/Signin/Signin.jsx'
 import Register from './components/Register/Register.jsx'
-import { FRONTEND_SECRET_KEY } from './config';
+
 
 // const returnClarifaiRequestOptions = (imageUrl) => {
 // // Clarifai API credentials and model settings
@@ -188,11 +188,8 @@ class Main extends Component {
           <FaceRecognition 
           imageUrl={imageUrl} 
           boxes={boxes} /* pass the boxes and imageUrl down as props */
-          caption={this.state.userInput} />// BAD: user-controlled!
-            <div>
-            <b>Demo: Exposed key:</b>
-            <pre>{FRONTEND_SECRET_KEY}</pre> {/* SINK */}
-          </div>
+           />// 
+          
         </div>
         : (
           this.state.route === '_signin_'

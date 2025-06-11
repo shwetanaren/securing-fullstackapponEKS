@@ -32,16 +32,16 @@ class  SignInForm extends React.Component  {
       console.log('Server response:', user)
       if (user.id) { //does the user exist with the id
          // SENSITIVE DATA EXPOSURE
-        localStorage.setItem('user', JSON.stringify(user)); // BAD: Stores full user object, possibly with sensitive info
+        // localStorage.setItem('user', JSON.stringify(user)); // BAD: Stores full user object, possibly with sensitive info
         this.props.loadUser(user);
          // --- OPEN REDIRECT Vulnerability ---
   // BAD: Redirects user to any external site specified in ?next=...
-  const next = new URLSearchParams(window.location.search).get('next');
-  if (next) {
-    window.location.href = next; // <-- Open Redirect
-  } else {
+  // const next = new URLSearchParams(window.location.search).get('next');
+  // if (next) {
+    // window.location.href = next; // <-- Open Redirect
+  // } else {
         this.props.onRouteChange('_home_');
-      } } else {
+       } else {
         //update the error state with an error message
         this.setState({error: user.message || "Error logging in: wrong credentials"})
       }

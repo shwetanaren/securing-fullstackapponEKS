@@ -23,11 +23,11 @@ function FaceRecognition({ imageUrl, boxes }) {
             );
           })}
         </div>
-        {/* --- DOM XSS VULN: Render caption as raw HTML --- */}
+        {/* --- DOM XSS VULN: Render caption as raw HTML ---
         <div
           style={{ marginTop: 16, color: "#a00" }}
           dangerouslySetInnerHTML={{ __html: caption }} // SINK
-        />
+        /> */}
       </div>
     );
   }
