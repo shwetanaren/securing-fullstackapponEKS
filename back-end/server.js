@@ -18,7 +18,7 @@ import knexConfig from './knexfile.js';
 import fs from 'fs';
 import path from 'path';
 
-const SECRET_KEY = "sast_thisIsHardcodedSecret";
+
 
 //Initialize an Express application:
 const app = express();
@@ -28,7 +28,7 @@ const app = express();
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || '*';
 
 app.use(cors({
-  origin: '*',
+  origin: 'https://fancy-genie-6f67ae.netlify.app',
   credentials: true
 }));
 
@@ -41,10 +41,6 @@ const PORT = process.env.PORT || 3000;
 // app.use(cors());
 
 
-// endpoint to leak secrets (for demo/testing SAST)
-app.get('/api/vuln-secret', (req, res) => {
-  res.json({ secret: SECRET_KEY });  // BAD: Leaks secret key
-});
 
 
   app.get('/api/test', (req, res) => {
@@ -80,29 +76,29 @@ app.get('/api/profile/:id',(req,res) => {profile.handleProfile(req,res,db) ;});
 app.put("/api/image", (req,res) => {image.handleImage(req,res,db);} );
 
 
-app.post('/api/clarifai', (req,res) => {clarifai.handleClarifai(req,res,fetch)});
+// app.post('/api/clarifai', (req,res) => {clarifai.handleClarifai(req,res,fetch)});
 
-app.get('/api/vuln-sql', async (req, res) => {
-  const { username } = req.query;
-  const rawQuery = `SELECT * FROM users WHERE username = '${username}'`;
-  const result = await db.raw(rawQuery);
-  res.json(result.rows || result);
-});
+// app.get('/api/vuln-sql', async (req, res) => {
+//   const { username } = req.query;
+//   const rawQuery = `SELECT * FROM users WHERE username = '${username}'`;
+//   const result = await db.raw(rawQuery);
+//   res.json(result.rows || result);
+// });
 
-app.post('/api/eval', (req, res) => {
-  // BAD: Dangerous use of eval
-  const result = eval(req.body.expression);
-  res.json({ result });
-});
+// app.post('/api/eval', (req, res) => {
+//   // BAD: Dangerous use of eval
+//   const result = eval(req.body.expression);
+//   res.json({ result });
+// });
 
-app.get('/api/readfile', (req, res) => {
-  const filename = req.query.filename;
-  const filePath = path.join(process.cwd(), filename);
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) return res.status(404).send('File not found');
-    res.send(data);
-  });
-});
+// app.get('/api/readfile', (req, res) => {
+//   const filename = req.query.filename;
+//   const filePath = path.join(process.cwd(), filename);
+//   fs.readFile(filePath, 'utf8', (err, data) => {
+//     if (err) return res.status(404).send('File not found');
+//     res.send(data);
+//   });
+// });
 
 app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);

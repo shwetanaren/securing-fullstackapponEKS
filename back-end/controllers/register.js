@@ -62,7 +62,7 @@ db.transaction(async trx => {
       console.log("✅ Registered user:", userInsert[0]);
       res.json(userInsert[0]);
 
-      res.json({ name, email, password, hash }); // BAD: Returns hash/password
+      // res.json({ name, email, password, hash }); // BAD: Returns hash/password
 
     } catch (err) {
       console.error("❌ Registration error:", err.message || err);
